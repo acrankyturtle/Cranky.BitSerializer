@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cranky.BitSerializer", "Cra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cranky.BitSerializer.Tests", "Cranky.BitSerializer.Tests\Cranky.BitSerializer.Tests.csproj", "{9F5CF27B-3E69-4B2C-8DE3-55ED7348A7D3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cranky.BitSerializer.Perf", "Cranky.BitSerializer.Perf\Cranky.BitSerializer.Perf.csproj", "{91563ACA-F602-4D09-B217-5BAE3A863144}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{9F5CF27B-3E69-4B2C-8DE3-55ED7348A7D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F5CF27B-3E69-4B2C-8DE3-55ED7348A7D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F5CF27B-3E69-4B2C-8DE3-55ED7348A7D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91563ACA-F602-4D09-B217-5BAE3A863144}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91563ACA-F602-4D09-B217-5BAE3A863144}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91563ACA-F602-4D09-B217-5BAE3A863144}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91563ACA-F602-4D09-B217-5BAE3A863144}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
