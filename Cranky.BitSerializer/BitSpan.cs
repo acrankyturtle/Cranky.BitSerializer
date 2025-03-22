@@ -84,14 +84,13 @@ public readonly ref struct BitSpan
 		}
 
 		T value;
+		var bitsRemaining = Length - mapping.FirstByte.NumBits;
 
 		// first byte
 		{
 			var b = (byte)(_data[0] & mapping.FirstByte.Mask);
-			value = CastHelpers.FromByte<T>(ref b) << (Length - mapping.FirstByte.NumBits);
+			value = CastHelpers.FromByte<T>(ref b) << bitsRemaining;
 		}
-
-		var bitsRemaining = Length - mapping.FirstByte.NumBits;
 
 		// whole bytes
 		for (var i = 1; i < mapping.LastByteIndex; i++)
@@ -134,15 +133,15 @@ public readonly ref struct BitSpan
 			return;
 		}
 
+		var bitsRemaining = Length - mapping.FirstByte.NumBits;
+
 		// first byte
 		{
 			_data[0] = (byte)(
 				(_data[0] & ~mapping.FirstByte.Mask)
-				| (CastHelpers.ToByte(value >> (Length - mapping.FirstByte.NumBits)) & mapping.FirstByte.Mask)
+				| (CastHelpers.ToByte(value >> bitsRemaining) & mapping.FirstByte.Mask)
 			);
 		}
-
-		var bitsRemaining = Length - mapping.FirstByte.NumBits;
 
 		// whole bytes
 		for (var i = 1; i < mapping.LastByteIndex; i++)

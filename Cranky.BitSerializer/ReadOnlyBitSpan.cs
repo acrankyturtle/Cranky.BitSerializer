@@ -81,14 +81,13 @@ public readonly ref struct ReadOnlyBitSpan
 		}
 
 		T value;
+		var bitsRemaining = Length - mapping.FirstByte.NumBits;
 
 		// first byte
 		{
 			var b = (byte)(_data[0] & mapping.FirstByte.Mask);
-			value = CastHelpers.FromByte<T>(ref b) << (Length - mapping.FirstByte.NumBits);
+			value = CastHelpers.FromByte<T>(ref b) << bitsRemaining;
 		}
-
-		var bitsRemaining = Length - mapping.FirstByte.NumBits;
 
 		// whole bytes
 		for (var i = 1; i < mapping.LastByteIndex; i++)
