@@ -4,6 +4,16 @@ public class BitSpan_Slice_Tests
 {
 	public record Parameters(uint Value, int OffsetBits, int LengthBits, int SliceOffsetBits);
 
+	[Fact]
+	public void Can_slice_to_zero_length()
+	{
+		var data = new byte[2];
+		var span = new BitSpan(data, 0, data.Length * 8);
+
+		var newSpan = span[(data.Length * 8)..];
+		newSpan.Length.Should().Be(0);
+	}
+
 	[Theory]
 	[MemberData(nameof(GetTestParameters))]
 	public void Test(Parameters parameters)
@@ -39,13 +49,13 @@ public class BitSpan_Slice_Tests
 
 	public static IEnumerable<object[]> GetTestParameters()
 	{
-		const int maxNumBytes = 2;
+		const int dataLen = 2;
 
-		for (var spanSizeBytes = 1; spanSizeBytes < maxNumBytes; spanSizeBytes++)
+		for (var spanSize = 1; spanSize < dataLen; spanSize++)
 		{
 			const uint data = 0b11111110101011111110101111101110;
 
-			for (var lengthBits = 1; lengthBits < maxNumBytes * 8; lengthBits++)
+			for (var lengthBits = 1; lengthBits < dataLen * 8; lengthBits++)
 			{
 				for (var offsetBits = 0; offsetBits < lengthBits; offsetBits++)
 				{

@@ -13,14 +13,18 @@ public readonly ref struct ReadOnlyBitSpan
 
 	public ReadOnlyBitSpan(ReadOnlySpan<byte> data, int offset, int length)
 	{
-		if (offset is < 0 or >= 8)
-			throw new ArgumentOutOfRangeException(nameof(offset));
-
-		if ((length + offset) >> 3 > data.Length)
+		if (length + offset > data.Length * 8)
 			throw new ArgumentOutOfRangeException(nameof(length));
 
+		var byteOffset = offset / 8;
+		var bitOffset = offset % 8;
+		data = data[byteOffset..];
+
+		if (bitOffset is < 0 or >= 8)
+			throw new ArgumentOutOfRangeException(nameof(bitOffset));
+
 		_data = data;
-		_offset = offset;
+		_offset = bitOffset;
 		Length = length;
 	}
 
@@ -62,6 +66,9 @@ public readonly ref struct ReadOnlyBitSpan
 	public T ReadAs<T>()
 		where T : IBinaryInteger<T>
 	{
+		if (Length == 0)
+			return T.Zero;
+
 		var mapping = BitIndexMapping.From(_offset, Length, _data.Length);
 
 		if (mapping.NumBytes == 1)
