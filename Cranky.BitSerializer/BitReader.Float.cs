@@ -12,7 +12,12 @@ static partial class BitReader
 		where TFloat : IFloatingPoint<TFloat>, IBinaryNumber<TFloat>
 		where TBinary : IBinaryInteger<TBinary>, IUnsignedNumber<TBinary>
 	{
-		var maxRawValue = binToFloatFunc(~(TBinary.AllBitsSet << numBits));
+		var maxBinValue = ~(TBinary.AllBitsSet << numBits);
+		if (maxBinValue == TBinary.Zero)
+			// overflow hack!
+			maxBinValue = TBinary.AllBitsSet;
+
+		var maxRawValue = binToFloatFunc(maxBinValue);
 		var binValue = ReadBinary<TBinary>(ref span, numBits);
 		var rawValue = binToFloatFunc(binValue);
 		return rawValue / maxRawValue;
@@ -54,7 +59,12 @@ static partial class BitReader
 		where TFloat : IFloatingPoint<TFloat>, IBinaryNumber<TFloat>
 		where TBinary : IBinaryInteger<TBinary>, IUnsignedNumber<TBinary>
 	{
-		var maxRawValue = binToFloatFunc(~(TBinary.AllBitsSet << numBits));
+		var maxBinValue = ~(TBinary.AllBitsSet << numBits);
+		if (maxBinValue == TBinary.Zero)
+			// overflow hack!
+			maxBinValue = TBinary.AllBitsSet;
+
+		var maxRawValue = binToFloatFunc(maxBinValue);
 		var binValue = ReadBinary<TBinary>(ref span, numBits);
 		var rawValue = binToFloatFunc(binValue);
 		return rawValue / maxRawValue;

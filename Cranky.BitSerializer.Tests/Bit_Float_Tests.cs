@@ -116,7 +116,7 @@ public class Bit_Float_Tests
 			int maxNumBits
 		)
 		{
-			for (var i = 1; i < maxNumBits; i++)
+			for (var i = 1; i <= maxNumBits; i++)
 			{
 				foreach (var (min, max, value) in values)
 					yield return new(i, maxNumBits / 8 + 1, value, min, max);

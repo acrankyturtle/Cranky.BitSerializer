@@ -15,6 +15,10 @@ public static partial class BitWriter
 		where TBinary : IBinaryInteger<TBinary>, IUnsignedNumber<TBinary>
 	{
 		var maxBinValue = ~(TBinary.AllBitsSet << numBits);
+		if (maxBinValue == TBinary.Zero)
+			// overflow hack!
+			maxBinValue = TBinary.AllBitsSet;
+
 		var maxRawValue = binToFloatFunc(maxBinValue);
 		var rawValue = value * maxRawValue;
 		var binValue = floatToBinFunc(rawValue);
