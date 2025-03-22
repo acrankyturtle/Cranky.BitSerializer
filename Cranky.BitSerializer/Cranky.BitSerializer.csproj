@@ -5,7 +5,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
+  
+  <PropertyGroup>
+    <PackageId>ggbim.Cranky.BitSerializer</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>cranky</Authors>
+  </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2022.3.1" />
   </ItemGroup>
