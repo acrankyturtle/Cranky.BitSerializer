@@ -51,10 +51,10 @@ public class BitSpan_Slice_Tests
 				{
 					for (var sliceOffsetBits = 0; sliceOffsetBits < lengthBits; sliceOffsetBits++)
 					{
-						yield return new object[]
-						{
+						yield return
+						[
 							new Parameters(data, offsetBits, lengthBits, sliceOffsetBits),
-						};
+						];
 					}
 				}
 			}
