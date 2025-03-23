@@ -63,53 +63,13 @@ public readonly ref struct BitSpan
 		right = new(_data[byteSliceIndex..], rightBitOffset, Length - offset);
 	}
 
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static implicit operator ReadOnlyBitSpan(BitSpan bitSpan) =>
 		new(bitSpan._data, bitSpan._offset, bitSpan.Length);
 
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public T ReadAs<T>()
-		where T : IBinaryInteger<T>
-	{
-		if (Length == 0)
-			return T.Zero;
-
-		var mapping = BitIndexMapping.From(_offset, Length, _data.Length);
-
-		if (mapping.NumBytes == 1)
-		{
-			var firstByte = (byte)(
-				(_data[0] & mapping.FirstByte.Mask & mapping.LastByte.Mask) >> mapping.LastByte.Padding
-			);
-
-			return CastHelpers.FromByte<T>(ref firstByte);
-		}
-
-		T value;
-		var bitsRemaining = Length - mapping.FirstByte.NumBits;
-
-		// first byte
-		{
-			var b = (byte)(_data[0] & mapping.FirstByte.Mask);
-			value = CastHelpers.FromByte<T>(ref b) << bitsRemaining;
-		}
-
-		// whole bytes
-		for (var i = 1; i < mapping.LastByteIndex; i++)
-		{
-			var b = _data[i];
-			var v = CastHelpers.FromByte<T>(ref b);
-			value |= v << (bitsRemaining -= 8);
-		}
-
-		// last byte
-		{
-			var b = (byte)(
-				(_data[mapping.LastByteIndex] & mapping.LastByte.Mask) >> mapping.LastByte.Padding
-			);
-			value |= CastHelpers.FromByte<T>(ref b);
-		}
-
-		return value;
-	}
+		where T : IBinaryInteger<T> => ((ReadOnlyBitSpan)this).ReadAs<T>();
 
 	public void Write<T>(T value)
 		where T : IBinaryInteger<T>

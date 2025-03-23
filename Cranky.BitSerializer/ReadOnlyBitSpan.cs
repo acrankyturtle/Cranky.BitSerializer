@@ -93,7 +93,8 @@ public readonly ref struct ReadOnlyBitSpan
 		for (var i = 1; i < mapping.LastByteIndex; i++)
 		{
 			var b = _data[i];
-			value |= CastHelpers.FromByte<T>(ref b) << (bitsRemaining -= 8);
+			var v = CastHelpers.FromByte<T>(ref b);
+			value |= v << (bitsRemaining -= 8);
 		}
 
 		// last byte
